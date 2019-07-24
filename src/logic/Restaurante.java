@@ -7,6 +7,7 @@ import java.util.ArrayList;
 
 import javax.swing.Timer;
 
+import constants.Utils;
 import model.MyQueue;
 
 /**
@@ -17,16 +18,16 @@ import model.MyQueue;
  *
  */
 public class Restaurante implements ActionListener {
-	private MyQueue<Mesa> mesasDisponibles;
-	private MyQueue<Mesa> mesasOcupadas;
+	private MyQueue<Table> mesasDisponibles;
+	private MyQueue<Table> mesasOcupadas;
 
-	private ArrayList<Dia> ventana1;
-	private ArrayList<Dia> ventana2;
-	private ArrayList<Dia> ventana3;
+	private ArrayList<Day> ventana1;
+	private ArrayList<Day> ventana2;
+	private ArrayList<Day> ventana3;
 	
 
-	private Mesero mesero1 = new Mesero(1);
-	private Mesero mesero2 = new Mesero(2);
+	private Waiter mesero1 = new Waiter(1);
+	private Waiter mesero2 = new Waiter(2);
 
 	private int propina1 = 0;
 	private int propina2 = 0;
@@ -39,14 +40,14 @@ public class Restaurante implements ActionListener {
 	ArrayList<Double> calEntradas;
 	ArrayList<Double> calpostres;
 
-	private Cocina cocina = new Cocina();
+	private Kitchen cocina = new Kitchen();
 
-	private Caja caja = new Caja();
+	private PaymentBox caja = new PaymentBox();
 
-	private Cocinero cocinero1 = new Cocinero(1);
-	private Cocinero cocinero2 = new Cocinero(2);
+	private Chef cocinero1 = new Chef(1);
+	private Chef cocinero2 = new Chef(2);
 
-	Uniforme uniforme = new Uniforme();
+	Utils uniforme = new Utils();
 
 	public Restaurante() {
 		calEntradas = new ArrayList<>();
@@ -65,20 +66,20 @@ public class Restaurante implements ActionListener {
 	 * Generar las jornadas para cada dia asi como los comensales que se atendieron
 	 * en solo un dia
 	 */
-	public void generarVentanas(ArrayList<Dia> ventana) {
+	public void generarVentanas(ArrayList<Day> ventana) {
 		int suma = 0;
 		while (suma != 7) {
-			Dia dia = new Dia(suma);
+			Day dia = new Day(suma);
 			clientesAldia(dia);
 			ventana.add(dia);
 			suma++;
 		}
 	}
 
-	public void clientesAldia(Dia dia) {
+	public void clientesAldia(Day dia) {
 		int suma = 0;
 		while (suma < 36000) {
-			ArrayList<Cliente> comensales = llegadaComensales();
+			ArrayList<Client> comensales = llegadaComensales();
 			dia.getClientes().add(comensales);
 			suma += comensales.get(0).getHoraLlegada();
 		}
@@ -87,30 +88,30 @@ public class Restaurante implements ActionListener {
 	public void crearMesas() {
 		int auxi = 1;
 		while (mesasDisponibles.size() < 14) {
-			Mesa mesa = new Mesa(auxi, true, false);
+			Table mesa = new Table(auxi, true, false);
 			mesasDisponibles.put(mesa);
 			auxi++;
 		}
 	}
 
-	private ArrayList<Cliente> llegadaComensales() {
-		ArrayList<Cliente> personasenmesa = new ArrayList<>();
-		int numeroClientes = (int) uniforme.pseudoaleatorios(1.0, 4.1);
-		int horaLLegada = (int) uniforme.pseudoaleatorios(1.0, 1500.1);
+	private ArrayList<Client> llegadaComensales() {
+		ArrayList<Client> personasenmesa = new ArrayList<>();
+		int numeroClientes = (int) uniforme.getRandomNumber(1.0, 4.1);
+		int horaLLegada = (int) uniforme.getRandomNumber(1.0, 1500.1);
 		for (int i = 0; i < numeroClientes; i++) {
-			int prioridad = (int) uniforme.pseudoaleatorios(0.0, 1.1);
-			int tipopago = (int) uniforme.pseudoaleatorios(0.0, 1.1);
-			Pedido pedidos = new Pedido(prioridad);
-			Cliente cliente = new Cliente(pedidos, horaLLegada, tipopago);
+			int prioridad = (int) uniforme.getRandomNumber(0.0, 1.1);
+			int tipopago = (int) uniforme.getRandomNumber(0.0, 1.1);
+			Order pedidos = new Order(prioridad);
+			Client cliente = new Client(pedidos, horaLLegada, tipopago);
 			personasenmesa.add(cliente);
 		}
 		return personasenmesa;
 
 	}
 
-	public void atenderClientes(ArrayList<Dia> ventana) {
+	public void atenderClientes(ArrayList<Day> ventana) {
 		for (int i = 0; i < ventana.size(); i++) {
-			Dia dia = ventana.get(i);
+			Day dia = ventana.get(i);
 			for (int j = 0; j < dia.getClientes().size(); j++) {
 				asignarMesadesocupada(dia.getClientes().get(j));
 			}
@@ -118,10 +119,10 @@ public class Restaurante implements ActionListener {
 
 	}
 
-	public void asignarMesadesocupada(ArrayList<Cliente> clientes) {
+	public void asignarMesadesocupada(ArrayList<Client> clientes) {
 		if (mesasDisponibles.size() > 0) {
-			Mesa mesa = mesasDisponibles.get();
-			Mesero mesero = asignarMesero();
+			Table mesa = mesasDisponibles.get();
+			Waiter mesero = asignarMesero();
 			if (mesero != null) {
 				mesero.getMesasAcargo().put(mesa);
 				mesa.setMesero(mesero);
@@ -136,8 +137,8 @@ public class Restaurante implements ActionListener {
 
 	}
 
-	public Mesero asignarMesero() {
-		int me = (int) uniforme.pseudoaleatorios(0.0, 1.9);
+	public Waiter asignarMesero() {
+		int me = (int) uniforme.getRandomNumber(0.0, 1.9);
 		if (me == 1) {
 			return mesero1;
 		} else {
@@ -145,7 +146,7 @@ public class Restaurante implements ActionListener {
 		}
 	}
 
-	public void tomaOrden(ArrayList<Cliente> cliente) {
+	public void tomaOrden(ArrayList<Client> cliente) {
 		for (int i = 0; i < cliente.size(); i++) {
 			relizarOrden(cliente.get(i));
 
@@ -153,9 +154,9 @@ public class Restaurante implements ActionListener {
 
 	}
 
-	public void enviarPedidoAcocina(ArrayList<Cliente> clientes) {
+	public void enviarPedidoAcocina(ArrayList<Client> clientes) {
 		for (int i = 0; i < clientes.size(); i++) {
-			Pedido pedido = clientes.get(i).getPedidos();
+			Order pedido = clientes.get(i).getPedidos();
 			cocina.pedidos.put(pedido);
 			if (pedido.getPostres().size() != 0) {
 				if (pedido.getPostres().size() > 1) {
@@ -171,24 +172,24 @@ public class Restaurante implements ActionListener {
 		}
 	}
 
-	public void traerPedido(Mesa mesa) {
+	public void traerPedido(Table mesa) {
 
-		int tipopago = (int) uniforme.pseudoaleatorios(1.0, 3.0);// americNO,IGUALES,TOdo
+		int tipopago = (int) uniforme.getRandomNumber(1.0, 3.0);// americNO,IGUALES,TOdo
 		for (int i = 0; i < mesa.getClientes().size(); i++) {
-		Pedido pedido = cocina.pedidos.get();
+		Order pedido = cocina.pedidos.get();
 		int tiempoServicio = 0;
 		if (pedido.getEntradas() != null) {
 			tiempoServicio = pedido.getEntradas().getTiempoPreparacion();
-			pedido.getEntradas().setCalificacion( uniforme.pseudoaleatorios(0.0, 5.1));
+			pedido.getEntradas().setCalificacion( uniforme.getRandomNumber(0.0, 5.1));
 		}
 		if (pedido.getPostres().size() != 0) {
 			for (int j = 0; j < pedido.getPostres().size(); j++) {
-				pedido.getPostres().get(j).setCalificacion( uniforme.pseudoaleatorios(0.0, 5.1));
+				pedido.getPostres().get(j).setCalificacion( uniforme.getRandomNumber(0.0, 5.1));
 				tiempoServicio += pedido.getPostres().get(j).getTiempoPreparacion();
 			}
 		}
 		tiempoServicio += pedido.getFuertes().getTiempoPreparacion();
-		pedido.getFuertes().setCalificacion( uniforme.pseudoaleatorios(0.0, 5.1));
+		pedido.getFuertes().setCalificacion( uniforme.getRandomNumber(0.0, 5.1));
 		pedido.setTiempoAtencion(tiempoServicio);
 
 			if (mesa.getClientes().get(i).getPedidos().getId() == pedido.getId()) {
@@ -202,12 +203,12 @@ public class Restaurante implements ActionListener {
 
 	}
 
-	public void generarCuentaTipo(Mesa mesa) {
+	public void generarCuentaTipo(Table mesa) {
 		int cuenta = 0;
 
 		if (mesa.getTipopago() == 1) {
 			for (int i = 0; i < mesa.getClientes().size(); i++) {
-				Cliente cliente = mesa.getClientes().get(i);
+				Client cliente = mesa.getClientes().get(i);
 				cliente.setCuenta(cuenta(cliente));
 				if (cliente.getTipoPago() == 0) {
 					caja.pagoEfectivo.put(cliente);
@@ -236,16 +237,16 @@ public class Restaurante implements ActionListener {
 		}
 
 		if (mesasOcupadas.size() > 0) {
-			Mesa aux = mesasOcupadas.get();
+			Table aux = mesasOcupadas.get();
 			mesasDisponibles.put(aux);
 		}
 
 	}
 
-	private int tipopago2(Mesa mesa) {
+	private int tipopago2(Table mesa) {
 		int cuenta = 0;
 		for (int i = 0; i < mesa.getClientes().size(); i++) {
-			Cliente cliente = mesa.getClientes().get(i);
+			Client cliente = mesa.getClientes().get(i);
 			cuenta += cuenta(cliente);
 
 		}
@@ -262,15 +263,15 @@ public class Restaurante implements ActionListener {
 		return (cuenta * 0.1);
 	}
 
-	private int tipopago3(Mesa mesa) {
+	private int tipopago3(Table mesa) {
 		int cuenta = 0;
 		for (int i = 0; i < mesa.getClientes().size(); i++) {
-			Cliente cliente = mesa.getClientes().get(i);
+			Client cliente = mesa.getClientes().get(i);
 			cuenta += cuenta(cliente);
 
 		}
 		for (int i = 0; i < mesa.getClientes().size(); i++) {
-			Cliente cliente = mesa.getClientes().get(i);
+			Client cliente = mesa.getClientes().get(i);
 			cliente.setCuenta(cuenta / mesa.getClientes().size());
 			if (cliente.getTipoPago() == 0) {
 				caja.pagoEfectivo.put(cliente);
@@ -281,7 +282,7 @@ public class Restaurante implements ActionListener {
 		return cuenta;
 	}
 
-	public int cuenta(Cliente cliente) {
+	public int cuenta(Client cliente) {
 		int total = 0;
 		if (cliente.getPedidos().getEntradas() != null) {
 			total = cliente.getPedidos().getEntradas().getPrecio();
@@ -294,10 +295,10 @@ public class Restaurante implements ActionListener {
 
 	}
 
-	public void relizarOrden(Cliente cliente) {
-		ArrayList<Plato> postres = new ArrayList<>();
-		int numeroPostres = (int) uniforme.pseudoaleatorios(0.0, 2.1);
-		int entrada = (int) uniforme.pseudoaleatorios(0.0, 1.1);
+	public void relizarOrden(Client cliente) {
+		ArrayList<Dish> postres = new ArrayList<>();
+		int numeroPostres = (int) uniforme.getRandomNumber(0.0, 2.1);
+		int entrada = (int) uniforme.getRandomNumber(0.0, 1.1);
 		for (int i = 0; i < numeroPostres; i++) {
 			postres.add(postres());
 		}
@@ -309,28 +310,28 @@ public class Restaurante implements ActionListener {
 
 	}
 
-	public Plato entradas() {
-		int platoele = (int) uniforme.pseudoaleatorios(1.0, 5.5);
-		int tiempoconsumo = (int) uniforme.pseudoaleatorios(240.0, 600.1);
-		Plato plato = new Plato(platoele, 1, tiempoconsumo);
+	public Dish entradas() {
+		int platoele = (int) uniforme.getRandomNumber(1.0, 5.5);
+		int tiempoconsumo = (int) uniforme.getRandomNumber(240.0, 600.1);
+		Dish plato = new Dish(platoele, 1, tiempoconsumo);
 		return plato;
 	}
 
-	public Plato fuertes() {
-		int platoele = (int) uniforme.pseudoaleatorios(1.0, 5.5);
-		int tiempoconsumo = (int) uniforme.pseudoaleatorios(900.0, 1200.1);
-		Plato plato = new Plato(platoele, 2, tiempoconsumo);
+	public Dish fuertes() {
+		int platoele = (int) uniforme.getRandomNumber(1.0, 5.5);
+		int tiempoconsumo = (int) uniforme.getRandomNumber(900.0, 1200.1);
+		Dish plato = new Dish(platoele, 2, tiempoconsumo);
 		return plato;
 	}
 
-	public Plato postres() {
-		int platoele = (int) uniforme.pseudoaleatorios(1.0, 10.5);
-		int tiempoconsumo = (int) uniforme.pseudoaleatorios(300.0, 900.1);
-		Plato plato = new Plato(platoele, 3, tiempoconsumo);
+	public Dish postres() {
+		int platoele = (int) uniforme.getRandomNumber(1.0, 10.5);
+		int tiempoconsumo = (int) uniforme.getRandomNumber(300.0, 900.1);
+		Dish plato = new Dish(platoele, 3, tiempoconsumo);
 		return plato;
 	}
 
-	public void contarPlatos(ArrayList<Dia> ventana) {
+	public void contarPlatos(ArrayList<Day> ventana) {
 		llenarArayIn(conteoEntradas);
 		llenarArayIn(conteoFuerte);
 		llenarArayPIN(conteoPostre);
@@ -338,7 +339,7 @@ public class Restaurante implements ActionListener {
 		int aux2 = 0;
 		int aux3 = 0;
 		for (int i = 0; i < ventana.size(); i++) {
-			ArrayList<ArrayList<Cliente>> clientes = ventana.get(i).getClientes();
+			ArrayList<ArrayList<Client>> clientes = ventana.get(i).getClientes();
 			for (int j = 0; j < clientes.size(); j++) {
 				for (int j2 = 0; j2 < clientes.get(j).size(); j2++) {
 
@@ -381,7 +382,7 @@ public class Restaurante implements ActionListener {
 		}
 	}
 
-	public void calificacion(ArrayList<Dia> ventana) {
+	public void calificacion(ArrayList<Day> ventana) {
 		llenarAray(calEntradas);
 		llenarAray(calFuerte);
 		llenarArayP(calpostres);
@@ -390,10 +391,10 @@ public class Restaurante implements ActionListener {
 		double aux2 = 0;
 		double aux3 = 0;
 		for (int i = 0; i < ventana.size(); i++) {
-			ArrayList<ArrayList<Cliente>> clientes = ventana.get(i).getClientes();
+			ArrayList<ArrayList<Client>> clientes = ventana.get(i).getClientes();
 			for (int j = 0; j < clientes.size(); j++) {
 				for (int j2 = 0; j2 < clientes.get(j).size(); j2++) {
-					Pedido pedido = clientes.get(j).get(j2).getPedidos();
+					Order pedido = clientes.get(j).get(j2).getPedidos();
 					int platoF = pedido.getFuertes().getId() - 1;
 					aux1 = (calFuerte.get(platoF) + pedido.getFuertes().getCalificacion());
 					calFuerte.set(platoF, aux1);
@@ -443,34 +444,34 @@ public class Restaurante implements ActionListener {
 
 	public String platofuerteMasVendido() {
 		
-		Plato plato = new Plato(getMaximo(conteoFuerte) + 1, 2, 0);
+		Dish plato = new Dish(getMaximo(conteoFuerte) + 1, 2, 0);
 		return plato.getNombre();
 	}
 
 	public String platoentradaMasVendido() {
 		System.out.println(conteoEntradas.size());
-		Plato plato = new Plato(getMaximo(conteoEntradas) + 1, 1, 0);
+		Dish plato = new Dish(getMaximo(conteoEntradas) + 1, 1, 0);
 		return plato.getNombre();
 	}
 
 	public String platoPostreMasVendido() {
-		Plato plato = new Plato(getMaximo(conteoPostre) + 1, 3, 0);
+		Dish plato = new Dish(getMaximo(conteoPostre) + 1, 3, 0);
 		return plato.getNombre();
 	}
 	
 	
 	public String platofuerteMasCal() {
-		Plato plato = new Plato(getMaximoD(calFuerte) + 1, 2, 0);
+		Dish plato = new Dish(getMaximoD(calFuerte) + 1, 2, 0);
 		return plato.getNombre();
 	}
 
 	public String platoentradaMasCal() {
-		Plato plato = new Plato(getMaximoD(calEntradas) + 1, 1, 0);
+		Dish plato = new Dish(getMaximoD(calEntradas) + 1, 1, 0);
 		return plato.getNombre();
 	}
 
 	public String platoPostreMascal() {
-		Plato plato = new Plato(getMaximoD(calpostres) + 1, 3, 0);
+		Dish plato = new Dish(getMaximoD(calpostres) + 1, 3, 0);
 		return plato.getNombre();
 	}
 
@@ -535,59 +536,59 @@ public class Restaurante implements ActionListener {
 		}
 	}
 
-	public MyQueue<Mesa> getMesasDisponibles() {
+	public MyQueue<Table> getMesasDisponibles() {
 		return mesasDisponibles;
 	}
 
-	public void setMesasDisponibles(MyQueue<Mesa> mesasDisponibles) {
+	public void setMesasDisponibles(MyQueue<Table> mesasDisponibles) {
 		this.mesasDisponibles = mesasDisponibles;
 	}
 
-	public MyQueue<Mesa> getMesasOcupadas() {
+	public MyQueue<Table> getMesasOcupadas() {
 		return mesasOcupadas;
 	}
 
-	public void setMesasOcupadas(MyQueue<Mesa> mesasOcupadas) {
+	public void setMesasOcupadas(MyQueue<Table> mesasOcupadas) {
 		this.mesasOcupadas = mesasOcupadas;
 	}
 
-	public ArrayList<Dia> getVentana1() {
+	public ArrayList<Day> getVentana1() {
 		return ventana1;
 	}
 
-	public void setVentana1(ArrayList<Dia> ventana1) {
+	public void setVentana1(ArrayList<Day> ventana1) {
 		this.ventana1 = ventana1;
 	}
 
-	public ArrayList<Dia> getVentana2() {
+	public ArrayList<Day> getVentana2() {
 		return ventana2;
 	}
 
-	public void setVentana2(ArrayList<Dia> ventana2) {
+	public void setVentana2(ArrayList<Day> ventana2) {
 		this.ventana2 = ventana2;
 	}
 
-	public ArrayList<Dia> getVentana3() {
+	public ArrayList<Day> getVentana3() {
 		return ventana3;
 	}
 
-	public void setVentana3(ArrayList<Dia> ventana3) {
+	public void setVentana3(ArrayList<Day> ventana3) {
 		this.ventana3 = ventana3;
 	}
 
-	public Mesero getMesero1() {
+	public Waiter getMesero1() {
 		return mesero1;
 	}
 
-	public void setMesero1(Mesero mesero1) {
+	public void setMesero1(Waiter mesero1) {
 		this.mesero1 = mesero1;
 	}
 
-	public Mesero getMesero2() {
+	public Waiter getMesero2() {
 		return mesero2;
 	}
 
-	public void setMesero2(Mesero mesero2) {
+	public void setMesero2(Waiter mesero2) {
 		this.mesero2 = mesero2;
 	}
 

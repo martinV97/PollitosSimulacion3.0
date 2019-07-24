@@ -16,32 +16,20 @@ import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
 
-import constants.Constant;
+import constants.Constants;
 
-public class JDDatosObteinidos extends JDialog {
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-	private DefaultTableModel tab3;
-	private JTable table3;
-	private JScrollPane scrollPane3;
-	private DefaultTableModel tab4;
-	private JTable table4;
-	private JScrollPane scrollPane4;
-	private JPanel  panelinfo1, panelinfo2;
+public class JDResultData extends JDialog {
+	private JPanel  panelinfo1, panelinfo2, panelinfo3;
 	private JLabel jl1, jl2, jl3, jl4, jl5, jl6, jl7, jl8, jl9, jl10, jl11, jl12, jl13, jl14,jl15,jl16
 	,jl17,jl18,jl19 ,jl20 ,jl21;
-	private JPanel panelinfo3;
 
-	public JDDatosObteinidos() {
+	public JDResultData() {
 		setSize(1280, 720);
-		setTitle("Datos Obtenidos");
+		setTitle("Resultados de la Simulación");
 		setModal(true);
 		setLocationRelativeTo(null);
-		setLayout(new GridLayout(1, 3));
-		Image image = Toolkit.getDefaultToolkit().getImage("img/icon.png");
-		setIconImage(image);
+		setLayout(new GridLayout(1, 2));
+		iniciarJlabels();
 
 		panelinfo1 = new JPanel();
 		panelinfo1.setLayout(new GridLayout(7, 2));
@@ -53,7 +41,6 @@ public class JDDatosObteinidos extends JDialog {
 		panelinfo3.setLayout(new GridLayout(7, 2));
 		panelinfo3.setBorder(new TitledBorder("Datos obtenidos ventana 3"));
 
-		iniciarJlabels();
 
 		panelinfo1.add(new JLabel("<html>Entrada mejor calificada"));
 		panelinfo1.add(jl1);
@@ -243,26 +230,7 @@ public class JDDatosObteinidos extends JDialog {
 		
 		
 	}
-	/*
-	 * Agrega una fila a la tabla
-	 */
-
-	public void agregarPromedio1(String[] fila) {
-		tab3.insertRow(Constant.CONTADOR5, fila);
-		Constant.CONTADOR5++;
-		scrollPane3.setViewportView(table3);
-	}
-	/*
-	 * Agrega una fila a la tabla
-	 */
-
-	public void agregarPromedio2(String[] fila) {
-		tab4.insertRow(Constant.CONTADOR6, fila);
-		Constant.CONTADOR6++;
-		scrollPane4.setViewportView(table4);
-	}
-
-	/*
+		/*
 	 * le asigna un valor al jlabel 7
 	 */
 	public void set1(String aux) {

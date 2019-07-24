@@ -2,16 +2,16 @@ package logic;
 
 import java.util.ArrayList;
 
-public class Dia {
+public class Day {
 	/**
 	 * esta clase permite determinar cuantas jornadas y cuantas personas llegan en un solo dia de trabajo.
 	 */
 	
 	private double jornada;
-	private ArrayList<ArrayList<Cliente>> clientes;
+	private ArrayList<ArrayList<Client>> clientes;
 	private int id;
 
-	public Dia(int id) {
+	public Day(int id) {
 		super();
 		this.id=id;
 		this.clientes=new ArrayList<>();
@@ -26,11 +26,11 @@ public class Dia {
 		this.id = id;
 	}
 
-	public ArrayList<ArrayList<Cliente>> getClientes() {
+	public ArrayList<ArrayList<Client>> getClientes() {
 		return clientes;
 	}
 
-	public void setClientes(ArrayList<ArrayList<Cliente>> clientes) {
+	public void setClientes(ArrayList<ArrayList<Client>> clientes) {
 		this.clientes = clientes;
 	}
 

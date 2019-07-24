@@ -7,45 +7,35 @@ import java.util.ArrayList;
  * @author XIMENA
  *
  */
-public class Pedido {
+public class Order {
 	public static int id=1;
 	private int idPedido;
 	
 	private int tiempoAtencion;
 	private int prioridad; 
 
-	private Plato fuertes;
-	private Plato entradas;
-	private ArrayList<Plato> postres;
+	private Dish fuertes;
+	private Dish entradas;
+	private ArrayList<Dish> postres;
 
 
-	public Pedido(int prioridad) {
+	public Order(int prioridad) {
 		postres= new ArrayList<>();
 		this.prioridad= prioridad;
-		idPedido=Pedido.id++;
+		idPedido=Order.id++;
 	}
-
-
 
 	public int getId() {
 		return idPedido;
 	}
 
-
-
 	public void setIdPedido(int idpedido) {
 		this.idPedido = idpedido;
 	}
 
-
-
-
-
 	public int getPrioridad() {
 		return prioridad;
 	}
-
-
 
 	public void setPrioridad(int prioridad) {
 		this.prioridad = prioridad;
@@ -61,43 +51,27 @@ public class Pedido {
 		this.tiempoAtencion = tiempoAtencion;
 	}
 
-
-
-	public Plato getFuertes() {
+	public Dish getFuertes() {
 		return fuertes;
 	}
 
-
-
-	public void setFuertes(Plato fuertes) {
+	public void setFuertes(Dish fuertes) {
 		this.fuertes = fuertes;
 	}
 
-
-
-	public Plato getEntradas() {
+	public Dish getEntradas() {
 		return entradas;
 	}
 
-
-
-	public void setEntradas(Plato entradas) {
+	public void setEntradas(Dish entradas) {
 		this.entradas = entradas;
 	}
 
-
-
-	public ArrayList<Plato> getPostres() {
+	public ArrayList<Dish> getPostres() {
 		return postres;
 	}
 
-
-
-	public void setPostres(ArrayList<Plato> postres) {
+	public void setPostres(ArrayList<Dish> postres) {
 		this.postres = postres;
 	}
-
-
-
-
 }

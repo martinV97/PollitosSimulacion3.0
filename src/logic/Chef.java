@@ -9,13 +9,13 @@ import javax.swing.Timer;
 
 import model.MyQueue;
 
-public class Cocinero {
+public class Chef {
 	private int id;
 	private String habilidades;
-	MyQueue<Plato> platos; 
+	MyQueue<Dish> platos; 
 
 
-	public Cocinero(int id) {
+	public Chef(int id) {
 		this.id=id;
 		this.habilidades=seleccionarHabilidades();
 		platos= new MyQueue<>();

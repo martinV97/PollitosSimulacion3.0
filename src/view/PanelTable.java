@@ -16,17 +16,17 @@ import javax.swing.border.Border;
 import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
 
-import logic.Cliente;
-import logic.Plato;
+import logic.Client;
+import logic.Dish;
 
 /**
  * panel que contiene las tablas que muestran los platos que se solicitaron en
  * cada una de las mesas.
  * 
- * @author XIMENA
  *
  */
-public class PanelTablas extends JPanel {
+@SuppressWarnings("serial")
+public class PanelTable extends JPanel {
 	JTable espera;
 	JTable atendidos;
 	JTable caja;
@@ -37,17 +37,17 @@ public class PanelTablas extends JPanel {
 	DefaultTableModel tabmesa3;
 	DefaultTableModel tabmesa4;
 
-	JScrollPane pane1;
-	JScrollPane pane2;
-	JScrollPane pane3;
-	JScrollPane pane4;
+	JScrollPane paneWaitClients;
+	JScrollPane paneServeClients;
+	JScrollPane panePayClients;
+	JScrollPane paneTotalClients;
 	int aux = 1;
 
 	String[] cabecera = { "Cliente", "Hora LLegada" };
 	String[] cabecera2 = { "Cliente", "Pedido" };
 	String[] cabecera3 = { "Cliente", "Cuenta" };
 
-	public PanelTablas() {
+	public PanelTable() {
 		this.setLayout(new GridLayout(1, 5));
 		tabmesa1 = new DefaultTableModel(cabecera, 0) {
 			/**
@@ -63,17 +63,12 @@ public class PanelTablas extends JPanel {
 
 		espera = new JTable(tabmesa1);
 		espera.setEditingColumn(0);
-		pane1 = new JScrollPane(espera);
+		paneWaitClients = new JScrollPane(espera);
 		TitledBorder bf = BorderFactory.createTitledBorder("Clientes en Espera");
-		bf.setTitleFont(new Font("Forte", 0, 16));
-		bf.setTitleColor(Color.decode("#36A8E1"));
-		pane1.setBorder(bf);
-		this.add(pane1);
+		paneWaitClients.setBorder(bf);
+		this.add(paneWaitClients);
 
 		tabmesa2 = new DefaultTableModel(cabecera2, 0) {
-			/**
-			 * 
-			 */
 			private static final long serialVersionUID = 1L;
 
 			public boolean isCellEditable(int row, int column) {
@@ -82,17 +77,12 @@ public class PanelTablas extends JPanel {
 
 		};
 		atendidos = new JTable(tabmesa2);
-		pane2 = new JScrollPane(atendidos);
-		TitledBorder bf2 = BorderFactory.createTitledBorder("Clientes Atendidos");
-		bf2.setTitleFont(new Font("Forte", 0, 16));
-		bf2.setTitleColor(Color.decode("#36A8E1"));
-		pane2.setBorder(bf2);
-		this.add(pane2);
+		paneServeClients = new JScrollPane(atendidos);
+		TitledBorder bf2 = BorderFactory.createTitledBorder("Clientes en mesa");
+		paneServeClients.setBorder(bf2);
+		this.add(paneServeClients);
 
 		tabmesa3 = new DefaultTableModel(cabecera3, 0) {
-			/**
-			 * 
-			 */
 			private static final long serialVersionUID = 1L;
 
 			public boolean isCellEditable(int row, int column) {
@@ -101,17 +91,12 @@ public class PanelTablas extends JPanel {
 
 		};
 		caja = new JTable(tabmesa3);
-		pane3 = new JScrollPane(caja);
+		panePayClients = new JScrollPane(caja);
 		TitledBorder bf3 = BorderFactory.createTitledBorder("Clientes en Caja");
-		bf3.setTitleFont(new Font("Forte", 0, 16));
-		bf3.setTitleColor(Color.decode("#36A8E1"));
-		pane3.setBorder(bf3);
-		this.add(pane3);
+		panePayClients.setBorder(bf3);
+		this.add(panePayClients);
 
 		tabmesa4 = new DefaultTableModel(cabecera, 0) {
-			/**
-			 * 
-			 */
 			private static final long serialVersionUID = 1L;
 
 			public boolean isCellEditable(int row, int column) {
@@ -120,36 +105,47 @@ public class PanelTablas extends JPanel {
 
 		};
 		satisfechos = new JTable(tabmesa4);
-		pane4 = new JScrollPane(satisfechos);
-		TitledBorder bf4 = BorderFactory.createTitledBorder("Clientes Satisfechos");
-		bf4.setTitleFont(new Font("Forte", 0, 16));
-		bf4.setTitleColor(Color.decode("#36A8E1"));
-		pane4.setBorder(bf4);
-		this.add(pane4);
+		paneTotalClients = new JScrollPane(satisfechos);
+		TitledBorder bf4 = BorderFactory.createTitledBorder("Clientes Totales");
+		paneTotalClients.setBorder(bf4);
+		this.add(paneTotalClients);
 
 	}
 
-	public void agregaraMesa1(ArrayList<ArrayList<Cliente>> arrayList, int pedido) {
-
+	public void agregaraMesa1(ArrayList<ArrayList<Client>> arrayList, int pedido) {
 		for (int j = 0; j < arrayList.size(); j++) {
 			String[] b = { "pedido", "" + (j + 1) };
 			tabmesa1.addRow(b);
 			for (int i = 0; i < arrayList.get(j).size(); i++) {
 				String[] s = { "" + (i + 1), "" + arrayList.get(j).get(i).getHoraLlegada() };
 				tabmesa1.addRow(s);
-
 			}
 		}
 	}
 
-	public void agregaraMesa2(ArrayList<Cliente> cliente, int id) {
+	public void agregaraMesa2(ArrayList<Client> cliente, int id) {
 		for (int i = 0; i < cliente.size(); i++) {
 			String[] a = { "" + cliente.get(i).getHoraLlegada(), "" + getPedido(cliente.get(i)) };
 			tabmesa2.addRow(a);
 		}
 	}
 
-	public String getPedido(Cliente cliente) {
+	public void agregaraMesa3(ArrayList<Client> cliente, int id) {
+		for (int i = 0; i < cliente.size(); i++) {
+			String[] a = { "" + cliente.get(i).getHoraLlegada(), "" + cliente.get(i).getCuenta() };
+			tabmesa3.addRow(a);
+			aux++;
+		}
+	}
+	
+	public void agregaraMesa4(ArrayList<Client> cliente, int id) {
+		for (int i = 0; i < cliente.size(); i++) {
+			String[] a = { "" + aux, "" + cliente.get(i).getHoraLlegada() };
+			tabmesa4.addRow(a);
+		}
+	}
+
+	public String getPedido(Client cliente) {
 		String aux = "";
 		if (cliente.getPedidos().getEntradas() != null) {
 			aux += cliente.getPedidos().getEntradas().getNombre() + "," + cliente.getPedidos().getFuertes().getNombre()
@@ -167,10 +163,10 @@ public class PanelTablas extends JPanel {
 				aux += cliente.getPedidos().getPostres().get(0).getNombre();
 			}
 		}
-
+		
 		return aux;
 	}
-
+	
 	public int getCantidad1() {
 		return tabmesa1.getRowCount();
 	}
@@ -183,20 +179,6 @@ public class PanelTablas extends JPanel {
 		return tabmesa3.getRowCount();
 	}
 
-	public void agregaraMesa3(ArrayList<Cliente> cliente, int id) {
-		for (int i = 0; i < cliente.size(); i++) {
-			String[] a = { "" + cliente.get(i).getHoraLlegada(), "" + cliente.get(i).getCuenta() };
-			tabmesa3.addRow(a);
-			aux++;
-		}
-	}
-
-	public void agregaraMesa4(ArrayList<Cliente> cliente, int id) {
-		for (int i = 0; i < cliente.size(); i++) {
-			String[] a = { "" + aux, "" + cliente.get(i).getHoraLlegada() };
-			tabmesa4.addRow(a);
-		}
-	}
 
 	public void deleteAll() {
 		int filas = tabmesa1.getRowCount();
@@ -242,27 +224,21 @@ public class PanelTablas extends JPanel {
 
 	public void deleteMesa1(int size) {
 		for (int i = 0; i < (size + 1); i++) {
-
 			tabmesa1.removeRow(0);
-
 		}
 
 	}
 
 	public void deleteMesa2(int size) {
 		for (int i = 0; i < size; i++) {
-
 			tabmesa2.removeRow(0);
-
 		}
 
 	}
 
 	public void deleteMesa3(int size) {
 		for (int i = 0; i < size; i++) {
-
 			tabmesa3.removeRow(0);
-
 		}
 
 	}

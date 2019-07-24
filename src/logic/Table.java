@@ -1,15 +1,15 @@
 package logic;
 import java.util.ArrayList;
 
-public class Mesa {
+public class Table {
 	private int id;
 	private boolean limpia;
 	private boolean ocupada;
 	private int tipopago; //americano, todaLacuenta, iguales
-	private ArrayList<Cliente> clientes;	
-	private Mesero mesero;
+	private ArrayList<Client> clientes;	
+	private Waiter mesero;
 	
-	public Mesa(int id, boolean limpia, boolean ocupada) {
+	public Table(int id, boolean limpia, boolean ocupada) {
 		super();
 		this.id = id;
 		this.limpia = limpia;
@@ -18,11 +18,11 @@ public class Mesa {
 		clientes= new ArrayList<>();
 	}
 	
-	public Mesero getMesero() {
+	public Waiter getMesero() {
 		return mesero;
 	}
 
-	public void setMesero(Mesero mesero) {
+	public void setMesero(Waiter mesero) {
 		this.mesero = mesero;
 	}
 
@@ -53,11 +53,11 @@ public class Mesa {
 		this.tipopago = tipopago;
 	}
 
-	public ArrayList<Cliente> getClientes() {
+	public ArrayList<Client> getClientes() {
 		return clientes;
 	}
 
-	public void setClientes(ArrayList<Cliente> clientes) {
+	public void setClientes(ArrayList<Client> clientes) {
 		this.clientes = clientes;
 	}
 

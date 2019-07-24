@@ -2,14 +2,14 @@ package logic;
 
 import java.util.ArrayList;
 
-public class Cliente {
+public class Client {
 	private int tipoPago; //1 tarjeta, 0 efectivo
 	private int cuenta;
-	private Pedido pedidos;
+	private Order pedidos;
 	private int horaLlegada;
 	
 	
-	public Cliente(Pedido pedidos, int horaLlegada, int tipopago) {
+	public Client(Order pedidos, int horaLlegada, int tipopago) {
 		super();
 		this.pedidos=pedidos;
 		this.horaLlegada=horaLlegada;
@@ -32,11 +32,11 @@ public class Cliente {
 		this.cuenta = cuenta;
 	}
 
-	public Pedido getPedidos() {
+	public Order getPedidos() {
 		return pedidos;
 	}
 
-	public void setPedidos(Pedido pedidos) {
+	public void setPedidos(Order pedidos) {
 		this.pedidos = pedidos;
 	}
 

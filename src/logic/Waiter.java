@@ -3,16 +3,16 @@ package logic;
 
 import model.MyQueue;
 
-public class Mesero {
+public class Waiter {
 	
 	private int id;
-	private MyQueue<Mesa> mesasAcargo;
+	private MyQueue<Table> mesasAcargo;
 	private  double propina;
 	private double promedioCalificacion;
 	private boolean ocupado;
 
 
-	public Mesero(int id) {
+	public Waiter(int id) {
 		super();
 		this.id=id;
 		this.mesasAcargo=new MyQueue<>();
@@ -43,13 +43,13 @@ public class Mesero {
 	
 
 
-	public MyQueue<Mesa> getMesasAcargo() {
+	public MyQueue<Table> getMesasAcargo() {
 		return mesasAcargo;
 	}
 
 
 
-	public void setMesasAcargo(MyQueue<Mesa> mesasAcargo) {
+	public void setMesasAcargo(MyQueue<Table> mesasAcargo) {
 		this.mesasAcargo = mesasAcargo;
 	}
 
