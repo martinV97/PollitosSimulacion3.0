@@ -6,17 +6,17 @@ import model.MyQueue;
 public class Waiter {
 	
 	private int id;
-	private MyQueue<Table> mesasAcargo;
-	private  double propina;
-	private double promedioCalificacion;
-	private boolean ocupado;
+	private MyQueue<Table> listOfTables;
+	private  double tips;
+	private double score;
+	private boolean available;
 
 
 	public Waiter(int id) {
 		super();
 		this.id=id;
-		this.mesasAcargo=new MyQueue<>();
-		this.promedioCalificacion =0;
+		this.listOfTables=new MyQueue<>();
+		this.score =0;
 		ocupado();
 	}
 
@@ -35,43 +35,43 @@ public class Waiter {
 
 
 	public void ocupado() {
-	if (mesasAcargo.size()==3) {
-		ocupado=true;
+	if (listOfTables.size()==3) {
+		available=true;
 	}else
-		ocupado=false;
+		available=false;
 	}
 	
 
 
-	public MyQueue<Table> getMesasAcargo() {
-		return mesasAcargo;
+	public MyQueue<Table> getTables() {
+		return listOfTables;
 	}
 
 
 
 	public void setMesasAcargo(MyQueue<Table> mesasAcargo) {
-		this.mesasAcargo = mesasAcargo;
+		this.listOfTables = mesasAcargo;
 	}
 
 	public boolean isOcupado() {
-		return ocupado;
+		return available;
 	}
 
 	public void setOcupado(boolean ocupado) {
-		this.ocupado = ocupado;
+		this.available = ocupado;
 	}
 
 	public double getPropina() {
-		return propina;
+		return tips;
 	}
-	public void setPropina(double propina) {
-		this.propina = propina;
+	public void setType(double propina) {
+		this.tips = propina;
 	}
 	public double getPromedioCalificacion() {
-		return promedioCalificacion;
+		return score;
 	}
 	public void setPromedioCalificacion(double promedioCalificacion) {
-		this.promedioCalificacion = promedioCalificacion;
+		this.score = promedioCalificacion;
 	}
 
 }

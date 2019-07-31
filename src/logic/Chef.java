@@ -1,24 +1,17 @@
 package logic;
 
-
-
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
-import javax.swing.Timer;
-
 import model.MyQueue;
 
 public class Chef {
 	private int id;
-	private String habilidades;
-	MyQueue<Dish> platos; 
+	private String kind;
+	MyQueue<Dish> dishes; 
 
 
 	public Chef(int id) {
 		this.id=id;
-		this.habilidades=seleccionarHabilidades();
-		platos= new MyQueue<>();
+		this.kind=seleccionarHabilidades();
+		dishes= new MyQueue<>();
 	}
 
 

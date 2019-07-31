@@ -8,6 +8,11 @@ import javax.swing.border.TitledBorder;
 
 public class PanelData extends JPanel {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	private JLabel jl1, jl2, jl3, jl4, jl5, jl6, jl7, jl8, jl9, jl10, jl11, jl12, jl13, jl14, jl15, jl16, jl17, jl18,
 			jl19, jl20, jl21;
 	

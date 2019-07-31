@@ -3,24 +3,24 @@ package logic;
 import model.MyQueue;
 
 public class PaymentBox {
-	MyQueue<Client> pagoEfectivo; 
-	MyQueue<Client> pagoTarjeta;
+	MyQueue<Client> cashPay; 
+	MyQueue<Client> cardPay;
 	public PaymentBox() {
-		pagoEfectivo=  new MyQueue<>();
-		pagoTarjeta= new MyQueue<>();
+		cashPay=  new MyQueue<>();
+		cardPay= new MyQueue<>();
 	}
 
 	public MyQueue<Client> getPagoEfectivo() {
-		return pagoEfectivo;
+		return cashPay;
 	}
 	public void setPagoEfectivo(MyQueue<Client> pagoEfectivo) {
-		this.pagoEfectivo = pagoEfectivo;
+		this.cashPay = pagoEfectivo;
 	}
 	public MyQueue<Client> getPagoTarjeta() {
-		return pagoTarjeta;
+		return cardPay;
 	}
 	public void setPagoTarjeta(MyQueue<Client> pagoTarjeta) {
-		this.pagoTarjeta = pagoTarjeta;
+		this.cardPay = pagoTarjeta;
 	} 
 	
 	

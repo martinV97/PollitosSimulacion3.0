@@ -1,6 +1,5 @@
 package logic;
 
-import java.util.ArrayList;
 
 public class Client {
 	private int tipoPago; //1 tarjeta, 0 efectivo
@@ -16,7 +15,7 @@ public class Client {
 		this.tipoPago=tipopago;
 	}
 
-	public int getTipoPago() {
+	public int getPayType() {
 		return tipoPago;
 	}
 
@@ -28,11 +27,11 @@ public class Client {
 		return cuenta;
 	}
 
-	public void setCuenta(int cuenta) {
+	public void setBill(int cuenta) {
 		this.cuenta = cuenta;
 	}
 
-	public Order getPedidos() {
+	public Order getOrders() {
 		return pedidos;
 	}
 

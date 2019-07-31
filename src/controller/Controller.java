@@ -7,70 +7,50 @@ import javax.swing.Timer;
 
 import constants.Constants;
 import constants.Utils;
-import logic.Restaurante;
-import view.JDResultData;
+import logic.Restaurant;
 import view.MainWindow;
 
-/**
- * Clase que permite gestionar todas las actividades que tendra el sistema
- *
- */
 public class Controller implements ActionListener {
 
 	MainWindow mainWindow;
-	Restaurante restaurante;
+	Restaurant restaurant;
 	Timer timer;
 	Timer timerTwo;
 	Timer timerThree;
 	Timer timerFour;
 	Timer timerFive;
+	int workPerDay = 10;
 	
 	
 	
 	public Controller() {
 		mainWindow = new MainWindow(this);
 		mainWindow.setVisible(true);
-
-		restaurante = new Restaurante();
-		restaurante.crearMesas();
-		restaurante.generarVentanas(restaurante.getVentana1());
-		restaurante.generarVentanas(restaurante.getVentana2());
-		restaurante.generarVentanas(restaurante.getVentana3());
+		restaurant = new Restaurant();
+		restaurant.startTables();
+		restaurant.startSimulationEnvironments(restaurant.getListOfDaysOne());
+		restaurant.startSimulationEnvironments(restaurant.getListOfDaysTwo());
+		restaurant.startSimulationEnvironments(restaurant.getListOfDaysThree());
 	}
 
-	/**
-	 * metodo que permite manejar los eventos y clasificarlos dependiendo de su
-	 * origen. para este caso solo habra un boton que envciara el comando de empezar
-	 * simulacion cada vez que se presione
-	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		switch (e.getActionCommand()) {
 		case Constants.START:
-			restaurante.atenderClientes(restaurante.getVentana1());
-			restaurante.atenderClientes(restaurante.getVentana3());
-			
-			mainWindow.getPanelTablas().deleteAll();
-			mainWindow.agregarTablas();
-
-			agregaraTablas();
-			agregaraAtendidos();
-			agregaraACaja();
-			agregaraASatisfechos();
+			restaurant.attendClients(restaurant.getListOfDaysOne());
+			restaurant.attendClients(restaurant.getListOfDaysTwo());
+			restaurant.attendClients(restaurant.getListOfDaysThree());
+			mainWindow.getPanelTables().deleteAll();
+			mainWindow.addTables();
+			addTables();
+			addAtendedClients();
+			addToPayment();
+			addSatisfiedClient();
 
 			break;
-		case Constants.DAO:
-			agregarDatosAObtenidosv1();
-			agregarDatosAObtenidosv2();
-			agregarDatosAObtenidosv3();
-			timerFour= new Timer(100, new ActionListener() {
-				
-				@Override
-				public void actionPerformed(ActionEvent e) {
-				}
-			});
-			
-			
+		case Constants.CHANGE:
+			workPerDay = Integer.parseInt(mainWindow.getTextFieldTimeChange().getText());
+			mainWindow.getTextFieldTimeChange().setText("");
 			break;
 		default:
 			break;
@@ -78,102 +58,117 @@ public class Controller implements ActionListener {
 	}
 
 	
-	public void agregarDatosAObtenidosv1(){
-		restaurante.contarPlatos(restaurante.getVentana1());
-		restaurante.calificacion(restaurante.getVentana1());
-		
-		mainWindow.getPanelData().set1(restaurante.platoentradaMasCal());
-		mainWindow.getPanelData().set2(restaurante.platofuerteMasCal());
-		mainWindow.getPanelData().set3(restaurante.platoPostreMascal());
-		mainWindow.getPanelData().set4(restaurante.platoentradaMasVendido());
-		mainWindow.getPanelData().set5(restaurante.platofuerteMasVendido());
-		mainWindow.getPanelData().set6(restaurante.platoPostreMasVendido());
-		mainWindow.getPanelData().set7("Mesero "+restaurante.asignarMesero().getId());
-		
+	public void addDataLisOfDaysOne(){
+		restaurant.countDishes(restaurant.getListOfDaysOne());
+		restaurant.setScore(restaurant.getListOfDaysOne());
+		mainWindow.getPanelData().set1(restaurant.getMostScoredEntrance());
+		mainWindow.getPanelData().set2(restaurant.getMostScoredMainCourse());
+		mainWindow.getPanelData().set3(restaurant.getMostScoredDessert());
+		mainWindow.getPanelData().set4(restaurant.getMostSelledEntrance());
+		mainWindow.getPanelData().set5(restaurant.getMostSelledMainCourse());
+		mainWindow.getPanelData().set6(restaurant.getMostSelledDessert());
+		mainWindow.getPanelData().set7("Mesero "+restaurant.setWaiter().getId());	
 	}
 	
-	public void agregarDatosAObtenidosv2(){
-		restaurante.generarVentanas(restaurante.getVentana2());
-		restaurante.atenderClientes(restaurante.getVentana2());
-
-		restaurante.contarPlatos(restaurante.getVentana2());
-		restaurante.calificacion(restaurante.getVentana2());
-
-		mainWindow.getPanelData().set8(restaurante.platoentradaMasCal());
-		mainWindow.getPanelData().set9(restaurante.platofuerteMasCal());
-		mainWindow.getPanelData().set10(restaurante.platoPostreMascal());
-		mainWindow.getPanelData().set11(restaurante.platoentradaMasVendido());
-		mainWindow.getPanelData().set12(restaurante.platofuerteMasVendido());
-		mainWindow.getPanelData().set13(restaurante.platoPostreMasVendido());
-		mainWindow.getPanelData().set14("Mesero "+restaurante.asignarMesero().getId());
-		
+	public void addDataLisOfDaysTwo(){
+		restaurant.startSimulationEnvironments(restaurant.getListOfDaysTwo());
+		restaurant.attendClients(restaurant.getListOfDaysTwo());
+		restaurant.countDishes(restaurant.getListOfDaysTwo());
+		restaurant.setScore(restaurant.getListOfDaysTwo());
+		mainWindow.getPanelData().set8(restaurant.getMostScoredEntrance());
+		mainWindow.getPanelData().set9(restaurant.getMostScoredMainCourse());
+		mainWindow.getPanelData().set10(restaurant.getMostScoredDessert());
+		mainWindow.getPanelData().set11(restaurant.getMostSelledEntrance());
+		mainWindow.getPanelData().set12(restaurant.getMostSelledMainCourse());
+		mainWindow.getPanelData().set13(restaurant.getMostSelledDessert());
+		mainWindow.getPanelData().set14("Mesero "+restaurant.setWaiter().getId());	
 	}
 
-	public void agregarDatosAObtenidosv3(){
-		restaurante.generarVentanas(restaurante.getVentana3());
-		restaurante.atenderClientes(restaurante.getVentana3());
-
-		restaurante.contarPlatos(restaurante.getVentana3());
-		restaurante.calificacion(restaurante.getVentana3());
-
-		mainWindow.getPanelData().set15(restaurante.platoentradaMasCal());
-		mainWindow.getPanelData().set16(restaurante.platofuerteMasCal());
-		mainWindow.getPanelData().set17(restaurante.platoPostreMascal());
-		mainWindow.getPanelData().set18(restaurante.platoentradaMasVendido());
-		mainWindow.getPanelData().set19(restaurante.platofuerteMasVendido());
-		mainWindow.getPanelData().set20(restaurante.platoPostreMasVendido());
-		mainWindow.getPanelData().set21("Mesero "+restaurante.asignarMesero().getId());
-
-		
+	public void addDataLisOfDaysThree(){
+		restaurant.startSimulationEnvironments(restaurant.getListOfDaysThree());
+		restaurant.attendClients(restaurant.getListOfDaysThree());
+		restaurant.countDishes(restaurant.getListOfDaysThree());
+		restaurant.setScore(restaurant.getListOfDaysThree());
+		mainWindow.getPanelData().set15(restaurant.getMostScoredEntrance());
+		mainWindow.getPanelData().set16(restaurant.getMostScoredMainCourse());
+		mainWindow.getPanelData().set17(restaurant.getMostScoredDessert());
+		mainWindow.getPanelData().set18(restaurant.getMostSelledEntrance());
+		mainWindow.getPanelData().set19(restaurant.getMostSelledMainCourse());
+		mainWindow.getPanelData().set20(restaurant.getMostSelledDessert());
+		mainWindow.getPanelData().set21("Mesero "+restaurant.setWaiter().getId());		
 	}
 	
-	public void agregaraTablas() {
+	public void addTables() {
 		timer = new Timer(getRandomNumber(500.0, 1500.0), new ActionListener() {
-			int dia = 0;
-
+			int day = 0;
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				mainWindow.getPanelTablas().agregaraMesa1(restaurante.getVentana1().get(dia).getClientes(), dia);
-
-				dia++;
-				if (restaurante.getVentana1().size() == dia) {
+				mainWindow.getPanelTables().addTableOne(restaurant.getListOfDaysOne().get(day).getClients(), day);
+				day++;
+				if (restaurant.getListOfDaysOne().size() == day) {
 					timer.stop();
-
 				}
 			}
 		});
 		timer.start();
-		tiempo();
-		mainWindow.desabilitarboton();
-		
-
+		time();
+		mainWindow.unableButtonStart();
+	}
+	
+	public void addAtendedClients() {
+		restaurant.attendClients(restaurant.getListOfDaysOne());
+		timerFour = new Timer(130, new ActionListener() {
+			int day = 0;
+			int f = 0;
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if (day < 7 && mainWindow.getPanelTables().getCantidad2() < 60) {
+					if (mainWindow.getPanelTables().getCantidad1() > restaurant.getListOfDaysOne().get(day)
+							.getClients().get(f).size()) {
+						mainWindow.getPanelTables()
+						.deleteTableOne(restaurant.getListOfDaysOne().get(day).getClients().get(f).size());
+						mainWindow.getPanelTables()
+						.addTableTwo(restaurant.getListOfDaysOne().get(day).getClients().get(f), day);
+					}
+					f++;
+					if (restaurant.getListOfDaysOne().get(day).getClients().size() == f) {
+						day++;
+						f = 0;
+					}
+				}
+				if (day == 7) {
+					mainWindow.getPanelTables().deleteAlltableOne();
+				}
+			}
+		});
+		timerFour.start();
 	}
 
-	public void agregaraACaja() {
-		timerThree = new Timer(getRandomNumber(100.0, 150.0), new ActionListener() {
-			int dia = 0;
+	public void addToPayment() {
+		timerThree = new Timer(130, new ActionListener() {
+			int day = 0;
 			int f = 0;
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if (dia < 7) {
-					if (mainWindow.getPanelTablas().getCantidad2() > restaurante.getVentana1().get(dia)
-							.getClientes().get(f).size()) {
-						mainWindow.getPanelTablas()
-								.deleteMesa2(restaurante.getVentana1().get(dia).getClientes().get(f).size());
-						mainWindow.getPanelTablas()
-								.agregaraMesa3(restaurante.getVentana1().get(dia).getClientes().get(f), dia);
-
+				if (day < 7) {
+					if (mainWindow.getPanelTables().getCantidad2() > restaurant.getListOfDaysOne().get(day)
+							.getClients().get(f).size()) {
+						mainWindow.getPanelTables()
+								.deleteMesa2(restaurant.getListOfDaysOne().get(day).getClients().get(f).size());
+						mainWindow.getPanelTables()
+								.addTableThree(restaurant.getListOfDaysOne().get(day).getClients().get(f), day);
 					}
 					f++;
-					if (restaurante.getVentana1().get(dia).getClientes().size() == f) {
-						dia++;
+					if (restaurant.getListOfDaysOne().get(day).getClients().size() == f) {
+						day++;
 						f = 0;
 					}
 				}
 
-				if (dia == 7) {
-					mainWindow.getPanelTablas().deleteAllMesa2();
+				if (day == 7) {
+					mainWindow.getPanelTables().deleteAllTableTwo();
 				}
 			}
 		});
@@ -181,105 +176,57 @@ public class Controller implements ActionListener {
 
 	}
 
-	public void agregaraASatisfechos() {
-		timerFive = new Timer(getRandomNumber(100.0, 150.0), new ActionListener() {
-			int dia = 0;
+	public void addSatisfiedClient() {
+		timerFive = new Timer(130, new ActionListener() {
+			int day = 0;
 			int f = 0;
-
-			int pedidosmesa1 = 0;
-			int pedidosmesa2 = 0;
-			int pedidosmesa3 = 0;
-			int pedidosmesa4 = 0;
-			int pedidosmesa5 = 0;
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if (dia < 7) {
-					if (mainWindow.getPanelTablas().getCantidad3() > restaurante.getVentana1().get(dia)
-							.getClientes().get(f).size()) {
-						mainWindow.getPanelTablas()
-								.deleteMesa3(restaurante.getVentana1().get(dia).getClientes().get(f).size());
-						mainWindow.getPanelTablas()
-								.agregaraMesa4(restaurante.getVentana1().get(dia).getClientes().get(f), dia);
+				if (day < 7) {
+					if (mainWindow.getPanelTables().getCantidad3() > restaurant.getListOfDaysOne().get(day)
+							.getClients().get(f).size()) {
+						mainWindow.getPanelTables()
+								.deleteMesa3(restaurant.getListOfDaysOne().get(day).getClients().get(f).size());
+						mainWindow.getPanelTables()
+								.addTableFour(restaurant.getListOfDaysOne().get(day).getClients().get(f), day);
 
 					}
 					f++;
-					if (restaurante.getVentana1().get(dia).getClientes().size() == f) {
-						dia++;
+					if (restaurant.getListOfDaysOne().get(day).getClients().size() == f) {
+						day++;
 						f = 0;
 					}
 				}
 
-				if (dia == 7) {
-					mainWindow.getPanelTablas().deleteAllMesa3();
+				if (day == 7) {
+					mainWindow.getPanelTables().deleteAllTableThree();
 					mainWindow.enableButtonStart();
-					mainWindow.enableButtonData();
 				}
 			}
 		});
 		timerFive.start();
 	}
 
-	public void agregaraAtendidos() {
-		restaurante.atenderClientes(restaurante.getVentana1());
-		timerFour = new Timer(getRandomNumber(100.0, 150.0), new ActionListener() {
-			int dia = 0;
-			int f = 0;
+
+	public void time() {
+		timerTwo = new Timer(215, new ActionListener() {
+			int hour = 1;
+			int day = 0;
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if (dia < 7 && mainWindow.getPanelTablas().getCantidad2() < 60) {
-					if (mainWindow.getPanelTablas().getCantidad1() > restaurante.getVentana1().get(dia)
-							.getClientes().get(f).size()) {
-						mainWindow.getPanelTablas()
-								.deleteMesa1(restaurante.getVentana1().get(dia).getClientes().get(f).size());
-						mainWindow.getPanelTablas()
-								.agregaraMesa2(restaurante.getVentana1().get(dia).getClientes().get(f), dia);
-
-					}
-					f++;
-					if (restaurante.getVentana1().get(dia).getClientes().size() == f) {
-						dia++;
-						f = 0;
-					}
+				mainWindow.getTimeTxt().setText(hour + " horas");
+				hour++;
+				if (hour % workPerDay == 0) {
+					day++;
+					mainWindow.getTxtDaysOfSimulation().setText(day + " día");
 				}
-
-				if (dia == 7) {
-					mainWindow.getPanelTablas().deleteAllMesa1();
-				}
-			}
-		});
-		timerFour.start();
-
-	}
-
-	/*
-	 * 
-	 * metodo que permite contabilizar un tiempo aproximado hasta que se siimulen
-	 * las 150 horas de trabajo
-	 */
-	public void tiempo() {
-		timerTwo = new Timer(210, new ActionListener() {
-			int hora = 1;
-			int dia=0;
-			int ventana=0;
-			int a=70;
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				mainWindow.getTxttiempo().setText(hora + " horas");
-				hora++;
-				if (hora%10==0) {
-					dia++;
-					mainWindow.getTxtDaysOfSimulation().setText(dia+"");
-				}
-				if (hora==a) {
-					a+=70;
-					ventana++;
-				}
-				
-				if (hora == 210) {
+				if (hour == 211) {
 					timerTwo.stop();
+					addDataLisOfDaysOne();
+					addDataLisOfDaysTwo();
+					addDataLisOfDaysThree();	
 				}
 			}
 

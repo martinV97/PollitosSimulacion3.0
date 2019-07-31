@@ -2,11 +2,6 @@ package logic;
 
 
 import java.util.ArrayList;
-/**
- * la clase pedido permite saber cuantos platos se piden en cada una de las mesas y cuales se pidieron
- * @author XIMENA
- *
- */
 public class Order {
 	public static int id=1;
 	private int idPedido;
@@ -51,7 +46,7 @@ public class Order {
 		this.tiempoAtencion = tiempoAtencion;
 	}
 
-	public Dish getFuertes() {
+	public Dish getMainCourse() {
 		return fuertes;
 	}
 
@@ -59,7 +54,7 @@ public class Order {
 		this.fuertes = fuertes;
 	}
 
-	public Dish getEntradas() {
+	public Dish getEntrances() {
 		return entradas;
 	}
 
@@ -67,7 +62,7 @@ public class Order {
 		this.entradas = entradas;
 	}
 
-	public ArrayList<Dish> getPostres() {
+	public ArrayList<Dish> getDesserts() {
 		return postres;
 	}
 

@@ -24,4 +24,5 @@ public class Constants {
 	public static int COUNT_SIX = 0;
 	public static final String START = "EMPEZAR SIMULACION";
 	public static final String DAO = "Datos";
+	public static final String CHANGE = "Change";
 }

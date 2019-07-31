@@ -1,142 +1,138 @@
 package logic;
 
-import java.util.ArrayList;
 
 public class Dish {
-	/**
-	 * esta clase permite saber todas las caracteristicas necesarias para
-	 * identifiocar unb plato
-	 */
+
 	private int id;
-	private String nombre;
-	private int precio;
-	private double calificacion;
-	private int tipo; // entrada =1, fuerte=2, postre=3.
-	private int tiempoConsumo;
-	private int tiempoPreparacion;
+	private String name;
+	private int price;
+	private double score;
+	private int dishType;
+	private int timeOfConsumption;
+	private int preparationTime;
 
 	public Dish(int id, int tipo, int tiempoConsumo) {
 		this.id = id;
-		this.tipo = tipo;
-		this.tiempoConsumo = tiempoConsumo;
-		this.calificacion = 0;
+		this.dishType = tipo;
+		this.timeOfConsumption = tiempoConsumo;
+		this.score = 0;
 		setDishData();
 	}
 
 	private void setDishData() {
-		if (tipo == 1) {
+		if (dishType == 1) {
 			switch (id) {
 			case 1:
-				nombre = "Papas fritas";
-				precio = 7000;
-				tiempoPreparacion = 900;
+				name = "Papas fritas";
+				price = 7000;
+				preparationTime = 900;
 				break;
 			case 2:
-				nombre = "Papas a la francesa";
-				precio = 5000;
-				tiempoPreparacion = 900;
+				name = "Papas a la francesa";
+				price = 5000;
+				preparationTime = 900;
 				break;
 			case 3:
-				nombre = "Papas criollas";
-				precio = 5000;
-				tiempoPreparacion = 900;
+				name = "Papas criollas";
+				price = 5000;
+				preparationTime = 900;
 
 				break;
 			case 4:
-				nombre = "Queso apanado";
-				precio = 7000;
-				tiempoPreparacion = 600;
+				name = "Queso apanado";
+				price = 7000;
+				preparationTime = 600;
 				break;
 			case 5:
-				nombre = "Camarones Apanados";
-				precio = 10000;
-				tiempoPreparacion = 600;
+				name = "Camarones Apanados";
+				price = 10000;
+				preparationTime = 600;
 				break;
 			default:
 				break;
 			}
-		} else if (tipo == 2) {
+		} else if (dishType == 2) {
 			switch (id) {
 			case 1:
-				nombre = "Hamburguesa";
-				precio = 10000;
-				tiempoPreparacion = 900;
+				name = "Hamburguesa";
+				price = 10000;
+				preparationTime = 900;
 				break;
 			case 2:
-				nombre = "Pizza";
-				precio = 8000;
-				tiempoPreparacion = 1200;
+				name = "Pizza";
+				price = 8000;
+				preparationTime = 1200;
 				break;
 			case 3:
-				nombre = "Perro Caliente";
-				precio = 9500;
-				tiempoPreparacion = 900;
+				name = "Perro Caliente";
+				price = 9500;
+				preparationTime = 900;
 				break;
 			case 4:
-				nombre = "Taco";
-				precio = 12000;
-				tiempoPreparacion = 1200;
+				name = "Taco";
+				price = 12000;
+				preparationTime = 1200;
 				break;
 			case 5:
-				nombre = "Burrito";
-				precio = 8000;
-				tiempoPreparacion = 1200;
+				name = "Burrito";
+				price = 8000;
+				preparationTime = 1200;
 				break;
 			default:
 				break;
 			}
-		} else if (tipo == 3) {
+		} else if (dishType == 3) {
 			switch (id) {
 			case 1:
-				nombre = "Torta de manzana";
-				precio = 1500;
-				tiempoPreparacion = 300;
+				name = "Torta de manzana";
+				price = 1500;
+				preparationTime = 300;
 				break;
 			case 2:
-				nombre = "Torta de fresa";
-				precio = 1600;
-				tiempoPreparacion = 300;
+				name = "Torta de fresa";
+				price = 1600;
+				preparationTime = 300;
 				break;
 			case 3:
-				nombre = "Torta de durazno";
-				precio = 2000;
-				tiempoPreparacion = 300;
+				name = "Torta de durazno";
+				price = 2000;
+				preparationTime = 300;
 				break;
 			case 4:
-				nombre = "Torta de manzana";
-				precio = 1500;
-				tiempoPreparacion = 300;
+				name = "Torta de manzana";
+				price = 1500;
+				preparationTime = 300;
 				break;
 			case 5:
-				nombre = "Torta de zanahoria";
-				precio = 1800;
-				tiempoPreparacion = 600;
+				name = "Torta de zanahoria";
+				price = 1800;
+				preparationTime = 600;
 
 				break;
 			case 6:
-				nombre = "Torta de calabaza";
-				precio = 2000;
-				tiempoPreparacion = 700;
+				name = "Torta de calabaza";
+				price = 2000;
+				preparationTime = 700;
 				break;
 			case 7:
-				nombre = "Helado de fresa";
-				precio = 1400;
-				tiempoPreparacion = 350;
+				name = "Helado de fresa";
+				price = 1400;
+				preparationTime = 350;
 				break;
 			case 8:
-				nombre = "Helado de mora";
-				precio = 1350;
-				tiempoPreparacion = 380;
+				name = "Helado de mora";
+				price = 1350;
+				preparationTime = 380;
 				break;
 			case 9:
-				nombre = "Helado de sandia";
-				precio = 1300;
-				tiempoPreparacion = 400;
+				name = "Helado de sandia";
+				price = 1300;
+				preparationTime = 400;
 				break;
 			case 10:
-				nombre = "Helado de banano";
-				precio = 2000;
-				tiempoPreparacion = 600;
+				name = "Helado de banano";
+				price = 2000;
+				preparationTime = 600;
 				break;
 
 			default:
@@ -147,7 +143,7 @@ public class Dish {
 
 
 	public int getPrecio() {
-		return precio;
+		return price;
 	}
 
 	public int getId() {
@@ -159,47 +155,47 @@ public class Dish {
 	}
 
 	public String getNombre() {
-		return nombre;
+		return name;
 	}
 
 	public void setNombre(String nombre) {
-		this.nombre = nombre;
+		this.name = nombre;
 	}
 
 	public double getCalificacion() {
-		return calificacion;
+		return score;
 	}
 
 	public void setCalificacion(double calificacion) {
-		this.calificacion = calificacion;
+		this.score = calificacion;
 	}
 
 	public int getTipo() {
-		return tipo;
+		return dishType;
 	}
 
 	public void setTipo(int tipo) {
-		this.tipo = tipo;
+		this.dishType = tipo;
 	}
 
 	public int getTiempoConsumo() {
-		return tiempoConsumo;
+		return timeOfConsumption;
 	}
 
 	public void setTiempoConsumo(int tiempoConsumo) {
-		this.tiempoConsumo = tiempoConsumo;
+		this.timeOfConsumption = tiempoConsumo;
 	}
 
 	public int getTiempoPreparacion() {
-		return tiempoPreparacion;
+		return preparationTime;
 	}
 
 	public void setTiempoPreparacion(int tiempoPreparacion) {
-		this.tiempoPreparacion = tiempoPreparacion;
+		this.preparationTime = tiempoPreparacion;
 	}
 
 	public void setPrecio(int precio) {
-		this.precio = precio;
+		this.price = precio;
 	}
 
 }

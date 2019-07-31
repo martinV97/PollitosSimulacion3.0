@@ -20,63 +20,46 @@ import constants.Constants;
 import controller.Controller;
 
 public class MainWindow extends JFrame {
-	/**
-	 * Ventana principal de la aplicacion junto con cada uno de sus componentes y
-	 * paneles
-	 */
-	private static final long serialVersionUID = 1L;
-	JLabel lblTitulo;
-	JLabel lbltiempo;
-	JLabel lblnumeroPedidos;
-
-	JLabel lblpedidosMesa1;
-	JLabel lblDay;
-	JLabel lblpedidosMesa3;
-	JLabel lblpedidosMesa4;
-	JLabel lblpedidosMesa5;
-
-	JTextField txttiempo;
-	JTextField txtnumeropedidos;
-
-	JTextField txtPedidosMesa1;
-	JTextField txtDaysOfSimulation;
-	JTextField txtPedidosMesa3;
-	JTextField txtPedidosMesa4;
-	JTextField txtPedidosMesa5;
-
-	JButton btnIniciar;
-
-	PanelTable panelTablas;
-	PanelData panelData;
 	
-	private JButton btnDatos;
+	private static final long serialVersionUID = 1L;
+	private JLabel lblTitleWindow;
+	private JLabel lblSimulationTime;
+	private JLabel lblSimulationDay;
+	private JLabel lblSimulationTimeChange;
+	private JTextField textFieldTime;
+	private JTextField textFieldTimeChange;
+	private JTextField textFieldOrderAmount;
+	private JTextField textFieldOrderTableOne;
+	private JTextField txtDaysOfSimulation;
+	private JButton buttonStart;
+	private JButton buttonChangeTime;
+	private PanelTable panelTables;
+	private PanelData panelData;
 
-	public MainWindow(Controller controlador) {
-
+	public MainWindow(Controller controller) {
 		setWindowsParameters();
-
-		lblTitulo = new JLabel("Pollito's 3.0");
-		lblTitulo.setBounds(555, 20, 300, 30);
-		lblTitulo.setFont(new Font("Courier New", Font.ITALIC, 24));
-		this.add(lblTitulo);
-
+		lblTitleWindow = new JLabel("Pollito's 3.0");
+		lblTitleWindow.setBounds(655, 20, 300, 30);
+		lblTitleWindow.setFont(new Font("Courier New", Font.ITALIC, 24));
+		this.add(lblTitleWindow);
 		startDataLabels();
+		addPanels();	
+		startControlButtons(controller);
 		
+	}
+
+	private void addPanels() {
 		panelData = new PanelData();
 		panelData.setBounds(40, 155, 650, 530);
 		panelData.setBorder(BorderFactory.createLineBorder(Color.black));
 		panelData.setVisible(true);
 		this.add(panelData);
 		
-		panelTablas = new PanelTable();
-		panelTablas.setBounds(730, 155, 745, 530);
-		panelTablas.setBorder(BorderFactory.createLineBorder(Color.black));
-		panelTablas.setVisible(true);
-		this.add(panelTablas);
-		
-		
-		startControlButtons(controlador);
-		
+		panelTables = new PanelTable();
+		panelTables.setBounds(730, 155, 745, 530);
+		panelTables.setBorder(BorderFactory.createLineBorder(Color.black));
+		panelTables.setVisible(true);
+		this.add(panelTables);
 	}
 
 	private void setWindowsParameters() {
@@ -89,18 +72,28 @@ public class MainWindow extends JFrame {
 	}
 
 	private void startDataLabels() {
-		lbltiempo = new JLabel("Tiempo:");
-		lbltiempo.setBounds(300, 60, 80, 30);
-		this.add(lbltiempo);
+		lblSimulationTime = new JLabel("Tiempo:");
+		lblSimulationTime.setBounds(300, 60, 80, 30);
+		this.add(lblSimulationTime);
+		
+		lblSimulationTimeChange = new JLabel("Nuevo Tiempo (día):");
+		lblSimulationTimeChange.setBounds(750, 60, 150, 30);
+		lblSimulationTimeChange.setEnabled(true);
+		this.add(lblSimulationTimeChange);
 
-		txttiempo = new JTextField();
-		txttiempo.setBounds(380, 60, 100, 30);
-		txttiempo.setEditable(false);
-		this.add(txttiempo);
+		textFieldTime = new JTextField();
+		textFieldTime.setBounds(380, 60, 100, 30);
+		textFieldTime.setEditable(false);
+		this.add(textFieldTime);
 
-		lblDay = new JLabel("Día:");
-		lblDay.setBounds(300, 110, 80, 30);
-		this.add(lblDay);
+		textFieldTimeChange = new JTextField();
+		textFieldTimeChange.setBounds(910, 60, 100, 30);
+		textFieldTimeChange.setEditable(true);
+		this.add(textFieldTimeChange);
+		
+		lblSimulationDay = new JLabel("Día:");
+		lblSimulationDay.setBounds(300, 110, 80, 30);
+		this.add(lblSimulationDay);
 		
 		txtDaysOfSimulation = new JTextField();
 		txtDaysOfSimulation.setBounds(380, 110, 100, 30);
@@ -109,44 +102,39 @@ public class MainWindow extends JFrame {
 	}
 
 	private void startControlButtons(Controller controlador) {
-		btnDatos = new JButton("Datos Obtenidos");
-		btnDatos.setBounds(525, 720, 190, 30);
-		btnDatos.addActionListener(controlador);
-		btnDatos.setActionCommand(Constants.DAO);
-		btnDatos.setEnabled(false);
-		this.add(btnDatos);
-
-		btnIniciar = new JButton("Iniciar");
-		btnIniciar.setBounds(725, 720, 190, 30);
-		btnIniciar.addActionListener(controlador);
-		btnIniciar.setActionCommand(Constants.START);
-		this.add(btnIniciar);
+		buttonStart = new JButton("Iniciar");
+		buttonStart.setBounds(625, 720, 190, 30);
+		buttonStart.addActionListener(controlador);
+		buttonStart.setActionCommand(Constants.START);
+		this.add(buttonStart);
+		
+		buttonChangeTime = new JButton("Cambiar");
+		buttonChangeTime.setBounds(1025, 60, 90, 30);
+		buttonChangeTime.addActionListener(controlador);
+		buttonChangeTime.setActionCommand(Constants.CHANGE);
+		this.add(buttonChangeTime);
 	}
 
-	public void agregarTablas() {
-		panelTablas.setVisible(true);
+	public void addTables() {
+		panelTables.setVisible(true);
 		this.repaint();
 
 	}
 
-	public void desabilitarboton() {
-		btnIniciar.setEnabled(false);
+	public void unableButtonStart() {
+		buttonStart.setEnabled(false);
 	}
 
 	public void enableButtonStart() {
-		btnIniciar.setEnabled(true);
-	}
-
-	public void enableButtonData() {
-		btnDatos.setEnabled(true);
+		buttonStart.setEnabled(true);
 	}
 
 	public JTextField getTxtPedidosMesa1() {
-		return txtPedidosMesa1;
+		return textFieldOrderTableOne;
 	}
 
 	public void setTxtPedidosMesa1(String txtPedidosMesa1) {
-		this.txtPedidosMesa1.setText(txtPedidosMesa1);
+		this.textFieldOrderTableOne.setText(txtPedidosMesa1);
 	}
 
 	public JTextField getTxtDaysOfSimulation() {
@@ -156,53 +144,28 @@ public class MainWindow extends JFrame {
 	public void setTxtPedidosMesa2(String txtPedidosMesa2) {
 		this.txtDaysOfSimulation.setText(txtPedidosMesa2);
 	}
-
-	public JTextField getTxtPedidosMesa3() {
-		return txtPedidosMesa3;
-	}
-
-	public void setTxtPedidosMesa3(JTextField txtPedidosMesa3) {
-		this.txtPedidosMesa3 = txtPedidosMesa3;
-	}
-
-	public JTextField getTxtPedidosMesa4() {
-		return txtPedidosMesa4;
-	}
-
-	public void setTxtPedidosMesa4(JTextField txtPedidosMesa4) {
-		this.txtPedidosMesa4 = txtPedidosMesa4;
-	}
-
-	public JTextField getTxtPedidosMesa5() {
-		return txtPedidosMesa5;
-	}
-
-	public void setTxtPedidosMesa5(JTextField txtPedidosMesa5) {
-		this.txtPedidosMesa5 = txtPedidosMesa5;
-	}
-
-	public JTextField getTxttiempo() {
-		return txttiempo;
+	public JTextField getTimeTxt() {
+		return textFieldTime;
 	}
 
 	public void setTxttiempo(JTextField txttiempo) {
-		this.txttiempo = txttiempo;
+		this.textFieldTime = txttiempo;
 	}
 
 	public JTextField getTxtnumeropedidos() {
-		return txtnumeropedidos;
+		return textFieldOrderAmount;
 	}
 
 	public void setTxtnumeropedidos(JTextField txtnumeropedidos) {
-		this.txtnumeropedidos = txtnumeropedidos;
+		this.textFieldOrderAmount = txtnumeropedidos;
 	}
 
-	public PanelTable getPanelTablas() {
-		return panelTablas;
+	public PanelTable getPanelTables() {
+		return panelTables;
 	}
 
 	public void setPanelTablas(PanelTable panelTablas) {
-		this.panelTablas = panelTablas;
+		this.panelTables = panelTablas;
 	}
 
 	public PanelData getPanelData() {
@@ -211,6 +174,22 @@ public class MainWindow extends JFrame {
 
 	public void setPanelData(PanelData panelData) {
 		this.panelData = panelData;
+	}
+
+	public JTextField getTextFieldTimeChange() {
+		return textFieldTimeChange;
+	}
+
+	public void setTextFieldTimeChange(JTextField textFieldTimeChange) {
+		this.textFieldTimeChange = textFieldTimeChange;
+	}
+
+	public JButton getButtonChangeTime() {
+		return buttonChangeTime;
+	}
+
+	public void setButtonChangeTime(JButton buttonChangeTime) {
+		this.buttonChangeTime = buttonChangeTime;
 	}
 
 	
